@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>res/ball.jpg</file>
+        <file>res/ball2.jpg</file>
+        <file>res/icon.jpg</file>
+        <file>res/pokemongo.png</file>
+        <file>res/screen.jpg</file>
+        <file>res/阿尔宙斯.png</file>
+        <file>res/固拉多.png</file>
+        <file>res/火焰鸟.png</file>
+        <file>res/杰尼龟.png</file>
+        <file>res/可达鸭.png</file>
+        <file>res/雷电球.png</file>
+        <file>res/鲤鱼王.png</file>
+        <file>res/喷火龙.png</file>
+        <file>res/皮卡丘.png</file>
+        <file>res/潜龙.png</file>
+        <file>res/闪电鸟.png</file>
+        <file>res/炎帝.png</file>
+    </qresource>
+</RCC>

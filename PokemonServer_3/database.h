@@ -26,6 +26,8 @@ public:
     vector<QString> queryAllUsers();
     //Spirit* queryPoke(QString name);
     vector<ATTRIBUTE*> queryPoke(QString name);
+    //查询胜率
+    double queryWinRate(const QString name);
 private:
 };
 

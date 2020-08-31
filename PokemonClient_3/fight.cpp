@@ -10,6 +10,8 @@ Fight::Fight(vector<Spirit*> p_list, Spirit* enemy,QString name,QString enemyNam
     ui(new Ui::Fight)
 {
     ui->setupUi(this);
+    ui->blood1->hide();
+    ui->blood2->hide();
     cur = 0;
     setLabel(p_list[0]->getInfo());
     QImage* img = new QImage;
@@ -19,6 +21,8 @@ Fight::Fight(vector<Spirit*> p_list, Spirit* enemy,QString name,QString enemyNam
     //QImage* img = new QImage;
     img->load(enemy->getImg());
     setImg2(img);
+
+
 
     connect(ui->next_btn,&QPushButton::clicked,this,[=](){
         if(cur < p_list.size()-1)
@@ -78,45 +82,75 @@ void Fight::challenge()
     QString winer;
     QString loser;
 
-
+    qDebug() << name;
+    qDebug() << enemyName;
     QWidget *containwidget = new QWidget(ui->fightInfo);
     QVBoxLayout *listlayout = new QVBoxLayout;
-    for(int i = 0; i < 100; i++)
-    {
-        QString test = "阿哲";
-        QLabel* infoLabel = new QLabel;
-        infoLabel->setText(test);
-        //QHBoxLayout *rowlayout = new QHBoxLayout;
-        listlayout->addWidget(infoLabel);
-        containwidget->setLayout(listlayout);
-        ui->fightInfo->setWidget(containwidget);
-    }
+
+    //血条初始化
+    ui->blood1->show();
+    ui->blood2->show();
+    ui->blood1->setOrientation(Qt::Horizontal);
+    ui->blood1->setFormat("%v");
+    ui->blood1->setMaximum(p_list[cur]->getHp());
+    ui->blood1->setMinimum(0);
+    ui->blood1->setValue(p_list[cur]->getHp());
+    ui->blood2->setOrientation(Qt::Horizontal);
+    ui->blood2->setFormat("%v");
+    ui->blood2->setMaximum(enemy->getHp());
+    ui->blood2->setMinimum(0);
+    ui->blood2->setValue(enemy->getHp());
     while(p_list[cur]->getHp() > 0 && enemy->getHp() > 0)
     {
-
-
+        QString info = enemy->attack(p_list[cur]);
+        ui->blood1->setValue(p_list[cur]->getHp());
         qDebug() << p_list[cur]->getHp();
-        qDebug() << enemy->getHp();
-        p_list[cur]->beAttack(enemy->attack());
+        QLabel* infoLabel = new QLabel;
+        QLabel* infoLabel2 = new QLabel;
+        qDebug() << info;
+        infoLabel->setText(info);
+        listlayout->addWidget(infoLabel);
+        containwidget->setLayout(listlayout);
         if(p_list[cur]->getHp() <= 0)
         {
+            ui->fightInfo->setWidget(containwidget);
+            qDebug() << enemy->getName() << "胜利";
             winer = enemyName;
             loser = name;
             break;
         }
-        enemy->beAttack(p_list[cur]->attack());
+        info = p_list[cur]->attack(enemy);
+        ui->blood2->setValue(enemy->getHp());
+        qDebug() << info;
+        infoLabel2->setText(info);
+        listlayout->addWidget(infoLabel2);
+        containwidget->setLayout(listlayout);
         if(enemy->getHp() <= 0)
         {
+            ui->fightInfo->setWidget(containwidget);
+            qDebug() << p_list[cur]->getName() << "胜利";
             winer = name;
             loser = enemyName;
             break;
         }
+        ui->fightInfo->setWidget(containwidget);
+        QEventLoop loop;
+        QTimer::singleShot(800,&loop,SLOT(quit()));
+        loop.exec();
     }
-    qDebug() << "胜者为" << winer;
+    qDebug() << "胜者为" << winer << "失败者:" << loser << name << enemyName;
     p_list[cur]->recover();
     enemy->recover();
     qDebug() << "恢复后" << p_list[cur]->getHp();
     qDebug() << "恢复后" << enemy->getHp();
 
-    //emit fightOver(winer,loser);
+    if(enemyName == "")
+    {
+        if(winer == name)
+            emit levelOver(true);
+        else
+            emit levelOver(false);
+    }
+    else
+        emit fightOver(winer,loser);
 }

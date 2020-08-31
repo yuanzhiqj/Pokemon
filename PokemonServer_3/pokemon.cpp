@@ -59,7 +59,7 @@ Spirit::Spirit(ATTRIBUTE *attr)
 }
 void Spirit::gainExp(int exp)
 {
-    _exp += exp;
+    _exp = exp;
     //存在一次升多级的情况
     while (_exp >= levelexp[_level] && _level != 15)
     {
@@ -73,12 +73,14 @@ void Spirit::levelup()
     addAttributes();
 }
 
-int Spirit::attack()
+QString Spirit::attack(Spirit*)
 {
     int d = rand() % 10;
     int damage = _strength * d;
-    qDebug() << "精灵" << _name << "使用普通攻击，打出了" << damage << "的伤害";
-    return damage;
+
+    QString info;
+    info = "精灵" + _name + "使用普通攻击，打出了" + damage + "的伤害";
+    return info;
 }
 
 int Spirit::beAttack(int damage)
@@ -182,28 +184,51 @@ QString Spirit::getImg()
     img = ":/res/" + _name + ".png";
     return img;
 }
-int Water::attack()
+
+QString Water::attack(Spirit* enemy)
 {
-    int d = rand() % 10;
-    int damage = _strength * d;
-    qDebug() << "精灵" << _name << "使用湍流龙击打，打出了" << damage << "的伤害" << endl;
-    return damage;
+    int d = _strength* (rand() % 10);
+
+    int defense = enemy->getDedense();
+    int damage = d-defense;
+
+    damage = damage>0 ? damage : 1;
+    enemy->beAttack(damage);
+
+    QString info;
+    info = QString("精灵" + _name + "使用湍流龙击打，打出了'%1'").arg(damage);
+    info += "的伤害";
+    return info;
 }
 
-int Fire::attack()
+QString Fire::attack(Spirit* enemy)
 {
-    int d = rand() % 10;
-    int damage = _strength * d;
-    qDebug() << "精灵" << _name << "使用绝命火焰，打出了" << damage << "的伤害" << endl;
-    return damage;
+    int d = _strength* (rand() % 10);
+
+    int defense = enemy->getDedense();
+    int damage = d-defense;
+
+    damage = damage>0 ? damage : 1;
+    enemy->beAttack(damage);
+    QString info;
+    info = QString("精灵" + _name + "使用绝命火焰，打出了'%1'").arg(damage);
+    info += "的伤害";
+    return info;
 }
 
-int Ele::attack()
+QString Ele::attack(Spirit* enemy)
 {
-    int d = rand() % 10;
-    int damage = _strength * d;
-    qDebug() << "精灵" << _name << "使用飞沙走石，打出了" << damage << "的伤害" << endl;
-    return damage;
+    int d = _strength* (rand() % 10);
+
+    int defense = enemy->getDedense();
+    int damage = d-defense;
+
+    damage = damage>0 ? damage : 1;
+    enemy->beAttack(damage);
+    QString info;
+    info = QString("精灵" + _name + "使用极电千鸟，打出了'%1'").arg(damage);
+    info += "的伤害";
+    return info;
 }
 
 QDataStream &operator<<(QDataStream &stream,ATTRIBUTE& attr)

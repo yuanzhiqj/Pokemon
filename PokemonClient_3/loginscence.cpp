@@ -153,6 +153,14 @@ QString LoginScence::getId()
     return this->name;
 }
 
+void LoginScence::paintEvent(QPaintEvent *)
+{
+    QPainter painter(this);
+    QPixmap pix;
+    pix.load(":/res/pokemongo.png");
+    painter.drawPixmap(0,0,this->width(),this->height(),pix);
+}
+
 
 
 

@@ -17,5 +17,10 @@
         <file>res/潜龙.png</file>
         <file>res/闪电鸟.png</file>
         <file>res/炎帝.png</file>
+        <file>res/金牌.png</file>
+        <file>res/铜牌.png</file>
+        <file>res/银牌.png</file>
+        <file>res/back1.jpg</file>
+        <file>res/back2.jpg</file>
     </qresource>
 </RCC>

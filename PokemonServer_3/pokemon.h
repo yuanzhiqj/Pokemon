@@ -66,7 +66,7 @@ public:
     ~Spirit() {};				//析构
 
     void gainExp(int exp);		//获得经验
-    virtual int attack();		//攻击函数
+    virtual QString attack(Spirit*);		//攻击函数
     int beAttack(int);          //被攻击
     void recover();             //恢复血量
     void output();              //输出信息
@@ -98,7 +98,7 @@ public:
     Fire(TYPE type, QString name) :
         Spirit(type, name) {};
     Fire(ATTRIBUTE* attr) : Spirit(attr){};
-    virtual int attack();
+    virtual QString attack(Spirit*);
 };
 
 class Water : public Spirit {
@@ -106,7 +106,7 @@ public:
     Water(TYPE type, QString name) :
         Spirit(type, name) {};
     Water(ATTRIBUTE* attr) : Spirit(attr){};
-    virtual int attack();
+    virtual QString attack(Spirit*);
 };
 
 class Ele : public Spirit {
@@ -114,7 +114,7 @@ public:
     Ele(TYPE type, QString name) :
         Spirit(type, name) {};
     Ele(ATTRIBUTE* attr) : Spirit(attr){};
-    virtual int attack();
+    virtual QString attack(Spirit*);
 };
 
 #endif

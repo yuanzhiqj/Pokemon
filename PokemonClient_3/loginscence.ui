@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>674</width>
+    <height>439</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="signIn_btn">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>220</y>
+     <x>190</x>
+     <y>240</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -29,8 +29,8 @@
   <widget class="QPushButton" name="signUp_btn">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>220</y>
+     <x>350</x>
+     <y>240</y>
      <width>93</width>
      <height>28</height>
     </rect>
@@ -42,8 +42,8 @@
   <widget class="QLineEdit" name="id_edit">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>60</y>
+     <x>190</x>
+     <y>140</y>
      <width>191</width>
      <height>21</height>
     </rect>
@@ -52,8 +52,8 @@
   <widget class="QLineEdit" name="pwd_edit">
    <property name="geometry">
     <rect>
-     <x>60</x>
-     <y>100</y>
+     <x>190</x>
+     <y>180</y>
      <width>191</width>
      <height>21</height>
     </rect>
@@ -62,8 +62,8 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>60</y>
+     <x>410</x>
+     <y>140</y>
      <width>72</width>
      <height>15</height>
     </rect>
@@ -75,8 +75,8 @@
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
-     <x>280</x>
-     <y>100</y>
+     <x>410</x>
+     <y>180</y>
      <width>72</width>
      <height>15</height>
     </rect>

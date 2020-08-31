@@ -52,6 +52,8 @@ private:
     void insertPoke(QString name, vector<ATTRIBUTE*> p_list);
     void updatePoke(QString name, vector<ATTRIBUTE*> p_list, int num, bool iswin);
     vector<ATTRIBUTE*> queryPoke(QString name);
+    //查询胜率
+    double queryWinRate(const QString name);
     void generate(vector<Spirit*>& pokemon_list);
     void levelUp(QString name,vector<ATTRIBUTE*> attr_list);
     vector<QString> queryAllUsers();

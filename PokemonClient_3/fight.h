@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLayout>
+#include <QTimer>
 #include "pokemon.h"
 
 namespace Ui {
@@ -19,6 +20,7 @@ public:
 
 signals:
     void fightOver(QString,QString);
+    void levelOver(bool);
 private:
     Ui::Fight *ui;
     vector<Spirit*> p_list;

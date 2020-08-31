@@ -27,14 +27,18 @@ private:
 
     vector<Spirit*> userPoke_list;  //用户的精灵列表
     QTcpSocket* tcpsocket;
-    QString name;                   //用户名
+    QString name;                   //我的用户名
     QString username;               //查看的用户名
     int cur;                        //当前宠物
     int mode;                       //显示模式
 
     void init();
+    //重写绘图函数
+    //void paintEvent(QPaintEvent*);
     void setLabel(QString info);
     void setImg(QImage* img);
+    void isLevelUp(bool);
+    Spirit* generateRandom(const int);
 
 private slots:
     void getOnlineUser();

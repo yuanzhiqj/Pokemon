@@ -99,6 +99,10 @@ void MainWindow::recvData(int id,QByteArray data)
         dsIn >> queryName;
         dsOut << QUERY;
         dsOut << queryName;
+
+        double winRate = queryWinRate(queryName);
+        dsOut << winRate;
+        qDebug() << "胜率为:" << winRate;
         vector<ATTRIBUTE*> p_list = queryPoke(queryName);
         int pokenum = p_list.size();
         dsOut << pokenum;
@@ -136,15 +140,16 @@ void MainWindow::recvData(int id,QByteArray data)
         //删除
         givePoke = loserP_list[r];
         loserP_list.erase(loserP_list.begin()+r);
+
+        //败者一方没有任何精灵的情况下，随机生成一只
+        if(loserP_list.size() == 0)
+        {
+            vector<Spirit*> temp;
+            generate(temp);
+            loserP_list.push_back(temp[0]->getAttribute());
+        }
         winP_list.push_back(givePoke);
-        for(int i = 0; i < loserP_list.size(); i++)
-        {
-            qDebug() << loserP_list[i]->id;
-        }
-        for(int j = 0; j < winP_list.size(); j++)
-        {
-            qDebug() << winP_list[j]->id;
-        }
+
         updatePoke(winer,winP_list,winP_list.size(),true);
         updatePoke(loser,loserP_list,loserP_list.size(),false);
 
@@ -206,6 +211,13 @@ vector<ATTRIBUTE*> MainWindow::queryPoke(QString name)
     DataBase* db = new DataBase();
     vector<ATTRIBUTE*>res = db->queryPoke(name);
     return res;
+}
+
+double MainWindow::queryWinRate(const QString name)
+{
+    DataBase* db = new DataBase();
+    double winrate = db->queryWinRate(name);
+    return winrate;
 }
 
 void MainWindow::generate(vector<Spirit*>& pokemon_list)

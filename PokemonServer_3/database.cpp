@@ -153,6 +153,31 @@ vector<ATTRIBUTE*> DataBase::queryPoke(QString name)
     return p_list;
 }
 
+double DataBase::queryWinRate(const QString name)
+{
+    QSqlDatabase db = QSqlDatabase::database("pokeDb");
+    QSqlQuery query(db);
+    QString S =QString("select * from user where id= '%1'").arg(name);
+    query.exec(S);
+    int totalNum = 0;
+    int winNum = 0;
+    double winRate = 0.0;
+    while(query.next())
+    {
+        winNum = query.value(4).toInt();
+        totalNum = query.value(5).toInt();
+    }
+    if(totalNum == 0)
+    {
+        qDebug() << "无比赛记录";
+        return 0;
+    }
+    else
+        winRate = (double)winNum / totalNum;
+    qDebug() << "胜场为:" << winNum << "胜率为" << winRate;
+    return winRate;
+}
+
 vector<QString> DataBase::queryAllUsers()
 {
     QSqlDatabase db = QSqlDatabase::database("pokeDb");
@@ -181,26 +206,31 @@ void DataBase::updatePoke(QString name, vector<ATTRIBUTE*> p_list, int num, bool
 
     QString S =QString("select * from user where id= '%1'").arg(name);
     query.exec(S);
-    int winnum = query.value(4).toInt();
-    if(iswin == true)
-        winnum = winnum+1;
-    int totalnum = query.value(5).toInt()+1;
-    qDebug() << winnum << totalnum;
 
-    //QSqlQuery query(db);
-    query.prepare("UPDATE user set pokemon= :poke, pokenum = :pokenum,win = :win, total = :total where id = :ID");
-    query.bindValue(":poke",data);
-    query.bindValue(":pokenum",num);
-    query.bindValue(":win",winnum);
-    query.bindValue(":total",totalnum);
-    query.bindValue(":ID",name);
-
-    bool success=query.exec();
-    if(!success)
+    while(query.next())
     {
-        QSqlError lastError = query.lastError();
-        qDebug() << lastError.driverText() << QString(QObject::tr("更新精灵失败"));
+        int winnum = query.value(4).toInt();
+        if(iswin == true)
+            winnum = winnum+1;
+        int totalnum = query.value(5).toInt()+1;
+        qDebug() << "更新后的胜场" << winnum << totalnum;
+
+        //QSqlQuery query(db);
+        query.prepare("UPDATE user set pokemon= :poke, pokenum = :pokenum,win = :win, total = :total where id = :ID");
+        query.bindValue(":poke",data);
+        query.bindValue(":pokenum",num);
+        query.bindValue(":win",winnum);
+        query.bindValue(":total",totalnum);
+        query.bindValue(":ID",name);
+
+        bool success=query.exec();
+        if(!success)
+        {
+            QSqlError lastError = query.lastError();
+            qDebug() << lastError.driverText() << QString(QObject::tr("更新精灵失败"));
+        }
     }
+
 }
 
 void DataBase::levelUp(QString name,vector<ATTRIBUTE*> attr_list)

@@ -4,6 +4,7 @@
 #include <QDialog>
 #include <QtNetwork>
 #include <QMessageBox>
+#include <QPainter>
 #include "pokemon.h"
 const uint SIGNIN = 1;
 const uint SIGNUP = 2;
@@ -38,6 +39,8 @@ private:
     QString name;
     vector<ATTRIBUTE*> attr_list;
 
+    //重写绘图函数
+    void paintEvent(QPaintEvent* );
     void connect_to_server();
     void init();
 signals:
